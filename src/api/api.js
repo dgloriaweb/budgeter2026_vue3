@@ -1,5 +1,31 @@
-// Automatically selects URL based on environment
-const BASE_URL = import.meta.env.VITE_API_BASE_URL|| 'https://dgloriaapi.co.uk:8081';
+// Automatically selects URL based on environment:
+// - On localhost dev, use same-origin requests (Vite proxy avoids CORS)
+// - Otherwise, use VITE_API_BASE_URL (prod) with a safe fallback
+const isLocalhost =
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+
+const BASE_URL = isLocalhost
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL || 'https://dgloriaapi.co.uk'
+
+const AUTH_TOKEN_STORAGE_KEY = 'budgeter2026_auth_token'
+
+export function getAuthToken() {
+  if (typeof window === 'undefined') return null
+  return window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY)
+}
+
+export function setAuthToken(token) {
+  if (typeof window === 'undefined') return
+  if (!token) return
+  window.localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token)
+}
+
+export function clearAuthToken() {
+  if (typeof window === 'undefined') return
+  window.localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY)
+}
 
 // Helper to extract cookie value by name
 function getCookie(name) {
@@ -13,14 +39,18 @@ function getCookie(name) {
 async function apiFetch(endpoint, options = {}) {
   // Extract CSRF token set by Laravel in client cookies
   const xsrfToken = getCookie('XSRF-TOKEN')
+  const bearerToken = getAuthToken()
+
+  const hasBody = options.body !== undefined && options.body !== null
 
   const config = {
     ...options,
-    credentials: 'include', // Crucial: sends & receives Sanctum session cookies
+    credentials: options.credentials ?? 'omit',
     headers: {
-      'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
       ...(xsrfToken && { 'X-XSRF-TOKEN': xsrfToken }), // Pass CSRF token back to Laravel
+      ...(bearerToken ? { Authorization: `Bearer ${bearerToken}` } : {}),
       ...options.headers,
     },
   }
@@ -28,8 +58,21 @@ async function apiFetch(endpoint, options = {}) {
   const response = await fetch(`${BASE_URL}${endpoint}`, config)
 
   if (!response.ok) {
+    if (response.status === 401) clearAuthToken()
     const errorData = await response.json().catch(() => ({}))
-    throw new Error(errorData.message || `Request failed with status ${response.status}`)
+    let message = errorData.message || `Request failed with status ${response.status}`
+    const errors = errorData?.errors
+    if (errors && typeof errors === 'object') {
+      const firstKey = Object.keys(errors)[0]
+      const firstValue = errors[firstKey]
+      const firstError =
+        Array.isArray(firstValue) ? firstValue[0] : firstValue ? String(firstValue) : ''
+      if (firstError) message = `${message}: ${firstError}`
+    }
+
+    const error = new Error(message)
+    error.data = errorData
+    throw error
   }
 
   // Return json if there's content, otherwise null (e.g. 204 responses)
