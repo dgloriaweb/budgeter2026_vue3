@@ -16,6 +16,10 @@ export function getAuthToken() {
   return window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY)
 }
 
+export function hasAuthToken() {
+  return Boolean(getAuthToken())
+}
+
 export function setAuthToken(token) {
   if (typeof window === 'undefined') return
   if (!token) return
@@ -58,7 +62,7 @@ async function apiFetch(endpoint, options = {}) {
   const response = await fetch(`${BASE_URL}${endpoint}`, config)
 
   if (!response.ok) {
-    if (response.status === 401) clearAuthToken()
+    if (response.status === 401 && bearerToken) clearAuthToken()
     const errorData = await response.json().catch(() => ({}))
     let message = errorData.message || `Request failed with status ${response.status}`
     const errors = errorData?.errors

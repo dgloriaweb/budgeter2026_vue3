@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import api, { clearAuthToken, setAuthToken } from '../api/api.js'
+import api, { clearAuthToken, hasAuthToken, setAuthToken } from '../api/api.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,6 +13,10 @@ const successMessage = ref('')
 const currentUser = ref(null)
 
 const loadCurrentUser = async () => {
+  if (!hasAuthToken()) {
+    currentUser.value = null
+    return
+  }
   try {
     currentUser.value = await api.get('/api/user')
   } catch {
