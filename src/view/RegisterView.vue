@@ -30,12 +30,10 @@ const handleRegister = async () => {
       password_confirmation: passwordConfirmation.value,
     })
 
-    if (registerResult?.token) setAuthToken(registerResult.token)
+    if (!registerResult?.token) throw new Error('Registration did not return a token.')
+    setAuthToken(registerResult.token)
 
-    await router.push({
-      path: '/',
-      query: { registered: '1', email: email.value },
-    })
+    await router.push({ name: 'dashboard' })
   } catch (error) {
     errorMessage.value = error?.message || 'Registration failed.'
   }

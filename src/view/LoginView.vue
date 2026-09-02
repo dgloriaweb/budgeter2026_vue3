@@ -43,11 +43,13 @@ const handleLogin = async () => {
       password: password.value,
     })
 
-    if (loginResult?.token) setAuthToken(loginResult.token)
+    if (!loginResult?.token) throw new Error('Login did not return a token.')
+    setAuthToken(loginResult.token)
 
     currentUser.value = loginResult?.user || null
     if (!currentUser.value) currentUser.value = await api.get('/api/user')
     successMessage.value = 'Logged in.'
+    await router.push({ name: 'dashboard' })
   } catch (error) {
     errorMessage.value = error?.message || 'Login failed.'
   }
