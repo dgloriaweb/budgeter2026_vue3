@@ -25,6 +25,10 @@ body {
   background: #243647;
   color: #fff;
 }
+.logo {
+  width: 2rem;
+  height: 2rem;
+}
 
 .brand {
   font-size: 22px;
