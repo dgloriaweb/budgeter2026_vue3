@@ -73,7 +73,7 @@ const handleLogout = async () => {
 <template>
   <div class="appShell">
     <header class="appHeader">
-      <div class="logo"><img src="/logo.svg" alt="Budgeter" /></div>
+      <div class="logo">Budget<img src="/logo.png" alt="Budgeter" /></div>
 
       <div class="right">
         <RouterLink v-if="!isAuthed" class="loginLink" to="/login">Log in</RouterLink>
