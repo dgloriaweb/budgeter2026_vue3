@@ -1,6 +1,6 @@
 light
 #08e2ff
-#f5ff8a
+#ecd6ab
 #ffa88a
 
 dark

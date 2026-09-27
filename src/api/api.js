@@ -1,15 +1,33 @@
-// Automatically selects URL based on environment:
-// - On localhost dev, use same-origin requests (Vite proxy avoids CORS)
-// - Otherwise, use VITE_API_BASE_URL (prod) with a safe fallback
-const isLocalhost =
-  typeof window !== 'undefined' &&
-  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-
-const BASE_URL = isLocalhost
-  ? ''
-  : import.meta.env.VITE_API_BASE_URL || 'https://dgloriaapi.co.uk'
-
+// Local: same-origin (Vite proxies /api to localhost:8081).
+// Live: VITE_API_BASE_URL, or https://dgloriaapi.co.uk
+const API_TARGET_STORAGE_KEY = 'budgeter2026_api_target'
+const LIVE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://dgloriaapi.co.uk'
 const AUTH_TOKEN_STORAGE_KEY = 'budgeter2026_auth_token'
+
+function defaultApiTarget() {
+  if (typeof window === 'undefined') return 'local'
+  const hostname = window.location.hostname
+  return hostname === 'localhost' || hostname === '127.0.0.1' ? 'local' : 'live'
+}
+
+export function getApiTarget() {
+  if (typeof window === 'undefined') return defaultApiTarget()
+  const stored = window.localStorage.getItem(API_TARGET_STORAGE_KEY)
+  if (stored === 'local' || stored === 'live') return stored
+  return defaultApiTarget()
+}
+
+export function setApiTarget(target) {
+  if (target !== 'local' && target !== 'live') return
+  if (typeof window === 'undefined') return
+  window.localStorage.setItem(API_TARGET_STORAGE_KEY, target)
+  // Tokens belong to one backend; drop them when switching.
+  clearAuthToken()
+}
+
+export function getApiBaseUrl() {
+  return getApiTarget() === 'local' ? '' : LIVE_API_BASE_URL
+}
 
 export function getAuthToken() {
   if (typeof window === 'undefined') return null
@@ -59,7 +77,18 @@ async function apiFetch(endpoint, options = {}) {
     },
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, config)
+  const requestUrl = `${getApiBaseUrl()}${endpoint}`
+  let response
+  try {
+    response = await fetch(requestUrl, config)
+  } catch (cause) {
+    const target = getApiTarget()
+    const hint =
+      "This usually means CORS blocked the request, the network/VPN/adblocker blocked it, or you're offline."
+    const error = new Error(`Network error reaching ${requestUrl} (apiTarget=${target}). ${hint}`)
+    error.cause = cause
+    throw error
+  }
 
   if (!response.ok) {
     if (response.status === 401 && bearerToken) clearAuthToken()
