@@ -6,8 +6,14 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'main',
+      alias: ['/main'],
+      component: () => import('../view/MainView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/login',
       name: 'login',
-      alias: ['/login'],
       component: () => import('../view/LoginView.vue'),
     },
     {
@@ -38,7 +44,7 @@ router.beforeEach((to) => {
   }
 
   if ((to.name === 'login' || to.name === 'register') && isAuthed) {
-    return { name: 'dashboard' }
+    return { name: 'main' }
   }
 })
 

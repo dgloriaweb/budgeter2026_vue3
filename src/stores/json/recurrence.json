@@ -1,0 +1,184 @@
+[
+  {
+    "recurrence_id": 1,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 1,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 2,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 7,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 3,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 8,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 4,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 9,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 5,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 10,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 6,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 11,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 7,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 13,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 8,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 15,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 9,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 16,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 10,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 17,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 11,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 18,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 12,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 23,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 13,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 25,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 14,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 26,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 15,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 28,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 16,
+    "freq": "MONTHLY",
+    "interval": 1,
+    "by_month_day": 30,
+    "by_month": null,
+    "by_day": null,
+    "start_date": null
+  },
+
+  {
+    "recurrence_id": 17,
+    "freq": "YEARLY",
+    "interval": 1,
+    "by_month_day": 1,
+    "by_month": [10],
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 18,
+    "freq": "YEARLY",
+    "interval": 1,
+    "by_month_day": 7,
+    "by_month": [8],
+    "by_day": null,
+    "start_date": null
+  },
+  {
+    "recurrence_id": 19,
+    "freq": "YEARLY",
+    "interval": 1,
+    "by_month_day": 18,
+    "by_month": [2],
+    "by_day": null,
+    "start_date": null
+  },
+
+  {
+    "recurrence_id": 20,
+    "freq": "YEARLY",
+    "interval": 1,
+    "by_month_day": 1,
+    "by_month": [1, 6],
+    "by_day": null,
+    "start_date": "2027-01-01"
+  }
+]

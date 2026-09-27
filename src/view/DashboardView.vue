@@ -192,15 +192,15 @@ const handleAddBill = () => {
           <div>
             <div class="cardTitle">Forecast (after the 7th)</div>
             <div class="forecastLine">
-              <span class="muted">Current total</span>
+              <span>Current total</span>
               <span class="strong">{{ totalBalanceLabel }}</span>
             </div>
             <div class="forecastLine">
-              <span class="muted">Scheduled payments (1st–7th)</span>
+              <span>Scheduled payments (1st–7th)</span>
               <span class="strong">-{{ scheduledOutgoingsLabel }}</span>
             </div>
             <div class="forecastLine">
-              <span class="muted">Predicted after 7th</span>
+              <span>Predicted after 7th</span>
               <span class="strong">{{ predictedAfter7thLabel }}</span>
             </div>
           </div>
@@ -223,7 +223,7 @@ const handleAddBill = () => {
         <details class="details">
           <summary class="summary">
             <span class="cardTitle" style="margin: 0;">Account balances</span>
-            <span class="muted">(tap to expand)</span>
+            <span>(tap to expand)</span>
           </summary>
 
           <div class="accounts" style="margin-top: 12px;">

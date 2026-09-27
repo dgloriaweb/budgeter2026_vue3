@@ -1,0 +1,62 @@
+[
+  {
+    "account_id": 1,
+    "short_name": "hsbc_curr",
+    "name": "HSBC curr",
+    "bank": "HSBC",
+    "type": "current",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "account_id": 2,
+    "short_name": "hsbc_savings",
+    "name": "HSBC Savings",
+    "bank": "HSBC",
+    "type": "savings",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "account_id": 3,
+    "short_name": "wise_huf_curr",
+    "name": "Wise HUF Curr",
+    "bank": "Wise",
+    "type": " current",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "account_id": 4,
+    "short_name": "wise_gbp_jar",
+    "name": "Wise GBP Jar",
+    "bank": "Wise",
+    "type": "jar",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "account_id": 5,
+    "short_name": "wise_huf_jar",
+    "name": "Wise HUF jar",
+    "bank": "Wise",
+    "type": "jar",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "account_id": 6,
+    "short_name": "wise_gbp_curr",
+    "name": "WISE GBP Curr",
+    "bank": "Wise",
+    "type": "current",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  }
+]

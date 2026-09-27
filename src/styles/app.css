@@ -1,4 +1,6 @@
 /* Global base */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+
 html,
 body {
   margin: 0;
@@ -8,7 +10,16 @@ body {
 body {
   background: #f6f7f9;
   color: #111827;
-  font-size: 16px;
+  font-size: 14px;
+  font-family:
+    'Roboto Condensed',
+    'Roboto',
+    'Arial Narrow',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Arial,
+    sans-serif;
 }
 
 /* Shared shell (App.vue) */
@@ -108,7 +119,6 @@ body {
 .menuEmail {
   margin-top: 2px;
   color: #6b7280;
-  font-size: 14px;
 }
 
 .menuItem {
@@ -160,10 +170,6 @@ body {
   color: #111827;
   border: 1px solid #e5e7eb;
   font-weight: 600;
-}
-
-.muted {
-  color: #6b7280;
 }
 
 .message {
@@ -220,6 +226,13 @@ body {
 
 .authStack {
   margin-top: 10px;
+}
+
+.serverSwitch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 /* Dashboard (scoped via .dashboardPage wrapper) */
@@ -437,7 +450,7 @@ body {
 
 .sheetTable th,
 .sheetTable td {
-  padding: 10px 12px;
+  padding: 2px 4px;
   border-bottom: 1px solid #eef0f3;
   vertical-align: middle;
   border-right: 1px solid #eef0f3;
@@ -510,3 +523,236 @@ body {
   font-weight: 900;
 }
 
+/* Main page (Upcoming list) */
+.mainPage .mainTable {
+  min-width: 0;
+}
+
+.accountFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  padding: 10px 16px 0;
+}
+
+.accountFilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  user-select: none;
+}
+
+.accountFilter input {
+  width: 16px;
+  height: 16px;
+}
+
+.mainPage .mainTable col.col-item {
+  width: 150px;
+}
+
+.mainPage .mainTable col.col-expense_amount {
+  width: 120px;
+}
+
+.mainPage .mainTable col.col-my_share {
+  width: 90px;
+}
+
+.mainPage .mainTable col.col-currency {
+  width: 60px;
+}
+
+.mainPage .mainTable col.col-date {
+  width: 40px;
+}
+
+.mainPage .mainTable col.col-bank {
+  width: 40px;
+}
+
+.mainPage .mainTable col.col-account {
+  width: 140px;
+}
+
+.mainPage .itemCell .cellName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.mainPage .colAmount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.mainPage .colBank {
+  text-align: center;
+}
+
+.mainPage .mainRow {
+  cursor: pointer;
+}
+
+.mainPage .mainRow:hover td {
+  background: #fafafa;
+}
+
+.itemCell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.detailsBtn {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailsBtn:hover {
+  background: #f3f4f6;
+}
+
+.detailsIcon {
+  transition: transform 120ms ease;
+}
+
+.detailsBtn.open .detailsIcon {
+  transform: rotate(180deg);
+}
+
+.dateCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.05;
+}
+
+.dateDay {
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.bankLogo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.neg {
+  color: #991b1b;
+  font-weight: 800;
+}
+
+.pos {
+  color: #14532d;
+  font-weight: 800;
+}
+
+.detailsRow td {
+  padding: 0 12px 12px;
+  background: #fff;
+}
+
+.detailsBox {
+  border: 1px solid #eef0f3;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: #374151;
+}
+
+.monthEndRow td {
+  padding: 0;
+  border-bottom: 0;
+}
+
+.monthEndLine {
+  height: 2px;
+  background: #e5e7eb;
+  width: 100%;
+}
+
+/* Column context menu (MainView) */
+.ctxBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+}
+
+.ctxMenu {
+  position: fixed;
+  min-width: 180px;
+  max-width: 260px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  padding: 10px;
+  z-index: 90;
+}
+
+.ctxTitle {
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.ctxItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ctxItem:hover {
+  background: #f3f4f6;
+}
+
+/* MainView columns button */
+.mainTitleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.columnsBtn {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111827;
+  border-radius: 10px;
+  height: 30px;
+  min-width: 34px;
+  padding: 0 10px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.columnsBtn:hover {
+  background: #f3f4f6;
+}
