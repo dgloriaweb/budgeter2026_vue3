@@ -1,0 +1,30 @@
+[
+  {
+    "adjustment_id": 1,
+    "bank": "HSBC",
+    "type": "current",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "adjustment_id": 2,
+    "short_name": "hsbc_savings",
+    "name": "HSBC Savings",
+    "bank": "HSBC",
+    "type": "savings",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  },
+  {
+    "adjustment_id": 3,
+    "short_name": "wise_huf_curr",
+    "name": "Wise HUF Curr",
+    "bank": "Wise",
+    "type": "current",
+    "status": 1,
+    "created_at": "2026-09-27T00:00:00Z",
+    "updated_at": "2026-09-27T00:00:00Z"
+  }
+]

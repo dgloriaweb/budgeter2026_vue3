@@ -1,7 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import api, { clearAuthToken, hasAuthToken, setAuthToken } from '../api/api.js'
+import api, {
+  clearAuthToken,
+  getApiTarget,
+  hasAuthToken,
+  setApiTarget,
+  setAuthToken,
+} from '../api/api.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,6 +17,21 @@ const password = ref('')
 const errorMessage = ref('')
 const successMessage = ref('')
 const currentUser = ref(null)
+const apiTarget = ref(getApiTarget())
+const canSwitchBackend =
+  import.meta.env.DEV ||
+  (typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+
+const toggleApiTarget = () => {
+  const next = apiTarget.value === 'local' ? 'live' : 'local'
+  setApiTarget(next)
+  apiTarget.value = next
+  currentUser.value = null
+  errorMessage.value = ''
+  successMessage.value =
+    next === 'local' ? 'Using localhost backend.' : 'Using live backend.'
+}
 
 const loadCurrentUser = async () => {
   if (!hasAuthToken()) {
@@ -25,6 +46,12 @@ const loadCurrentUser = async () => {
 }
 
 onMounted(() => {
+  // On live/prod frontends, always default to live backend (ignore any stored local choice).
+  if (!canSwitchBackend) {
+    setApiTarget('live')
+    apiTarget.value = 'live'
+  }
+
   if (route.query?.registered === '1') {
     successMessage.value = 'Account created. Please sign in.'
     if (typeof route.query?.email === 'string') email.value = route.query.email
@@ -49,7 +76,7 @@ const handleLogin = async () => {
     currentUser.value = loginResult?.user || null
     if (!currentUser.value) currentUser.value = await api.get('/api/user')
     successMessage.value = 'Logged in.'
-    await router.push({ name: 'dashboard' })
+    await router.push({ name: 'main' })
   } catch (error) {
     errorMessage.value = error?.message || 'Login failed.'
   }
@@ -101,6 +128,13 @@ const handleLogout = async () => {
       Don't have an account?
       <RouterLink to="/register">Register</RouterLink>
     </p>
+
+    <div v-if="canSwitchBackend" class="serverSwitch">
+      <button type="button" class="btn secondary" @click="toggleApiTarget">
+        Backend: {{ apiTarget === 'local' ? 'localhost' : 'live' }}
+      </button>
+      <span>Click to switch</span>
+    </div>
 
     <p v-if="errorMessage" class="message error">{{ errorMessage }}</p>
     <p v-if="successMessage" class="message success">{{ successMessage }}</p>

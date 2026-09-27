@@ -33,7 +33,7 @@ const handleRegister = async () => {
     if (!registerResult?.token) throw new Error('Registration did not return a token.')
     setAuthToken(registerResult.token)
 
-    await router.push({ name: 'dashboard' })
+    await router.push({ name: 'main' })
   } catch (error) {
     errorMessage.value = error?.message || 'Registration failed.'
   }
