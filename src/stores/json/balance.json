@@ -1,0 +1,12 @@
+[
+  {
+    "account_id": 1,
+    "amount": 100,
+    "balance_date": "2026-09-27T00:00:00Z"
+  },
+  {
+    "account_id": 2,
+    "amount": 1000,
+    "balance_date": "2026-09-27T00:00:00Z"
+  }
+]

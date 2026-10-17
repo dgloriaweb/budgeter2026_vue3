@@ -1,3 +1,100 @@
+
+<template>
+  <div class="page dashboardPage">
+    <header class="topbar">
+      <div>
+        <div class="title">Accounts</div>
+        <div class="subtitle">Total: {{ totalBalanceLabel }}</div>
+      </div>
+    </header>
+
+    <p v-if="errorMessage" class="message error">{{ errorMessage }}</p>
+    <p v-if="successMessage" class="message success">{{ successMessage }}</p>
+
+    <section class="grid">
+      <div class="card forecast">
+        <div class="forecastTop">
+          <div>
+            <div class="cardTitle">Forecast (after the 7th)</div>
+            <div class="forecastLine">
+              <span>Current total</span>
+              <span class="strong">{{ totalBalanceLabel }}</span>
+            </div>
+            <div class="forecastLine">
+              <span>Scheduled payments (1st–7th)</span>
+              <span class="strong">-{{ scheduledOutgoingsLabel }}</span>
+            </div>
+            <div class="forecastLine">
+              <span>Predicted after 7th</span>
+              <span class="strong">{{ predictedAfter7thLabel }}</span>
+            </div>
+          </div>
+
+          <div class="toggles">
+            <label class="toggle">
+              <input v-model="includeAllAccounts" type="checkbox" />
+              Include all accounts
+            </label>
+            <label class="toggle">
+              <input v-model="includeSavings" type="checkbox" />
+              Include savings
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <details class="details">
+          <summary class="summary">
+            <span class="cardTitle" style="margin: 0;">Account balances</span>
+            <span>(tap to expand)</span>
+          </summary>
+
+          <div class="accounts" style="margin-top: 12px;">
+            <div v-for="account in accounts" :key="account.id" class="accountRow">
+              <div class="accountName">{{ account.name }}</div>
+              <div class="accountBalance">{{ formatCurrency(account.balance_pence) }}</div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">Log a paid bill</div>
+        <form class="form" @submit.prevent="handleAddBill">
+          <label class="label">
+            Account used
+            <select v-model="billAccountId" class="input">
+              <option value="" disabled>Select…</option>
+              <option v-for="account in accounts" :key="account.id" :value="account.id">
+                {{ account.name }}
+              </option>
+            </select>
+          </label>
+
+          <label class="label">
+            Amount (GBP)
+            <input v-model="billAmountPounds" class="input" inputmode="decimal" placeholder="e.g. 12.99" />
+          </label>
+
+          <label class="label">
+            Category
+            <input v-model="billCategory" class="input" placeholder="e.g. Internet" />
+          </label>
+
+          <label class="label">
+            Date paid
+            <input v-model="billPaidDate" class="input" type="date" />
+          </label>
+
+          <button type="submit" class="btn">Log bill</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</template>
+
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import api from '../api/api.js'
@@ -173,100 +270,3 @@ const handleAddBill = () => {
   }
 }
 </script>
-
-<template>
-  <div class="page dashboardPage">
-    <header class="topbar">
-      <div>
-        <div class="title">Accounts</div>
-        <div class="subtitle">Total: {{ totalBalanceLabel }}</div>
-      </div>
-    </header>
-
-    <p v-if="errorMessage" class="message error">{{ errorMessage }}</p>
-    <p v-if="successMessage" class="message success">{{ successMessage }}</p>
-
-    <section class="grid">
-      <div class="card forecast">
-        <div class="forecastTop">
-          <div>
-            <div class="cardTitle">Forecast (after the 7th)</div>
-            <div class="forecastLine">
-              <span>Current total</span>
-              <span class="strong">{{ totalBalanceLabel }}</span>
-            </div>
-            <div class="forecastLine">
-              <span>Scheduled payments (1st–7th)</span>
-              <span class="strong">-{{ scheduledOutgoingsLabel }}</span>
-            </div>
-            <div class="forecastLine">
-              <span>Predicted after 7th</span>
-              <span class="strong">{{ predictedAfter7thLabel }}</span>
-            </div>
-          </div>
-
-          <div class="toggles">
-            <label class="toggle">
-              <input v-model="includeAllAccounts" type="checkbox" />
-              Include all accounts
-            </label>
-            <label class="toggle">
-              <input v-model="includeSavings" type="checkbox" />
-              Include savings
-            </label>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="card">
-        <details class="details">
-          <summary class="summary">
-            <span class="cardTitle" style="margin: 0;">Account balances</span>
-            <span>(tap to expand)</span>
-          </summary>
-
-          <div class="accounts" style="margin-top: 12px;">
-            <div v-for="account in accounts" :key="account.id" class="accountRow">
-              <div class="accountName">{{ account.name }}</div>
-              <div class="accountBalance">{{ formatCurrency(account.balance_pence) }}</div>
-            </div>
-          </div>
-        </details>
-      </div>
-
-      <div class="card">
-        <div class="cardTitle">Log a paid bill</div>
-        <form class="form" @submit.prevent="handleAddBill">
-          <label class="label">
-            Account used
-            <select v-model="billAccountId" class="input">
-              <option value="" disabled>Select…</option>
-              <option v-for="account in accounts" :key="account.id" :value="account.id">
-                {{ account.name }}
-              </option>
-            </select>
-          </label>
-
-          <label class="label">
-            Amount (GBP)
-            <input v-model="billAmountPounds" class="input" inputmode="decimal" placeholder="e.g. 12.99" />
-          </label>
-
-          <label class="label">
-            Category
-            <input v-model="billCategory" class="input" placeholder="e.g. Internet" />
-          </label>
-
-          <label class="label">
-            Date paid
-            <input v-model="billPaidDate" class="input" type="date" />
-          </label>
-
-          <button type="submit" class="btn">Log bill</button>
-        </form>
-      </div>
-    </section>
-  </div>
-</template>
-
