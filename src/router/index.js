@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { hasAuthToken } from '../api/api.js'
+import { hasAuthToken } from '@/api/api.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,29 +8,41 @@ const router = createRouter({
       path: '/',
       name: 'main',
       alias: ['/main'],
-      component: () => import('../view/MainView.vue'),
+      component: () => import('@/view/MainView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/balances',
+      name: 'balances',
+      component: () => import('@/view/BalancesView.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../view/LoginView.vue'),
+      component: () => import('@/view/LoginView.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../view/RegisterView.vue'),
+      component: () => import('@/view/RegisterView.vue'),
     },
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('../view/DashboardView.vue'),
+      component: () => import('@/view/DashboardView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/dashboard_v2',
+      name: 'dashboard_v2',
+      component: () => import('@/view/DashboardViewV2.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/expenses',
       name: 'expenses',
-      component: () => import('../view/ExpensesView.vue'),
+      component: () => import('@/view/ExpensesView.vue'),
       meta: { requiresAuth: true },
     },
   ],

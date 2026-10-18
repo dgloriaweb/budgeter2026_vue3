@@ -219,6 +219,10 @@ body {
   margin-top: 10px;
 }
 
+.authSubmit {
+  margin-top: 10px;
+}
+
 .serverSwitch {
   display: flex;
   align-items: center;
@@ -345,6 +349,15 @@ body {
 
 .dashboardPage .summary::-webkit-details-marker {
   display: none;
+}
+
+/* Card title inside a collapsible summary: no bottom margin needed */
+.dashboardPage .summary .cardTitle {
+  margin: 0;
+}
+
+.dashboardPage .summary + .accounts {
+  margin-top: 12px;
 }
 
 .dashboardPage .accountRow {
@@ -687,6 +700,15 @@ body {
 
 .ctxItem:hover {
   background: #f3f4f6;
+}
+
+/* Filter menu opens leftwards from the button */
+.ctxMenuFilter {
+  transform: translateX(-100%);
+}
+
+.ctxEmpty {
+  padding: 6px;
 }
 
 /* MainView filter button */

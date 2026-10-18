@@ -1,10 +1,10 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import rawTransactions from '../stores/json/transaction.json'
-import rawAccounts from '../stores/json/account.json'
-import rawRecurrences from '../stores/json/recurrence.json'
-import AppIcon from '../components/AppIcon.vue'
-import BtnDropdown from '../components/btn_dropdown.vue'
+import rawTransactions from '@/stores/json/transaction.json'
+import rawAccounts from '@/stores/json/account.json'
+import rawRecurrences from '@/stores/json/recurrence.json'
+import AppIcon from '@/components/AppIcon.vue'
+import BtnDropdown from '@/components/btn_dropdown.vue'
 
 const transactions = Array.isArray(rawTransactions)
   ? rawTransactions
@@ -426,11 +426,10 @@ onBeforeUnmount(() => {
 
     <div v-if="filterMenu.open" class="ctxBackdrop" @click="closeFilterMenu">
       <div
-        class="ctxMenu"
+        class="ctxMenu ctxMenuFilter"
         :style="{
           left: `${filterMenu.x}px`,
           top: `${filterMenu.y}px`,
-          transform: 'translateX(-100%)',
         }"
         @click.stop
       >
@@ -441,7 +440,7 @@ onBeforeUnmount(() => {
             {{ acc.name }}
           </label>
         </div>
-        <div v-else class="muted" style="padding: 6px">No accounts found in transactions.</div>
+        <div v-else class="muted ctxEmpty">No accounts found in transactions.</div>
 
         <div class="ctxDivider" />
 

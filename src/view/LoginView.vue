@@ -7,7 +7,7 @@ import api, {
   hasAuthToken,
   setApiTarget,
   setAuthToken,
-} from '../api/api.js'
+} from '@/api/api.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -121,7 +121,7 @@ const handleLogout = async () => {
         <input id="password" v-model="password" type="password" required class="input" />
       </div>
 
-      <button type="submit" class="btn" style="margin-top: 10px;">Sign In</button>
+      <button type="submit" class="btn authSubmit">Sign In</button>
     </form>
 
     <p class="authActions">
@@ -141,10 +141,9 @@ const handleLogout = async () => {
 
     <div v-if="currentUser" class="message success">
       <p>Logged in as: {{ currentUser.name }} ({{ currentUser.email }})</p>
-      <button type="button" class="btn secondary" style="margin-top: 10px;" @click="handleLogout">
+      <button type="button" class="btn secondary authSubmit" @click="handleLogout">
         Logout
       </button>
     </div>
   </div>
 </template>
-
