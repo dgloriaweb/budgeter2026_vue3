@@ -47,11 +47,11 @@
       <div class="card">
         <details class="details">
           <summary class="summary">
-            <span class="cardTitle" style="margin: 0;">Account balances</span>
+            <span class="cardTitle">Account balances</span>
             <span>(tap to expand)</span>
           </summary>
 
-          <div class="accounts" style="margin-top: 12px;">
+          <div class="accounts">
             <div v-for="account in accounts" :key="account.id" class="accountRow">
               <div class="accountName">{{ account.name }}</div>
               <div class="accountBalance">{{ formatCurrency(account.balance_pence) }}</div>

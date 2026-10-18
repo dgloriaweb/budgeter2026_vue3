@@ -1,5 +1,5 @@
 <script setup>
-import AppIcon from './AppIcon.vue'
+import AppIcon from '@/components/AppIcon.vue'
 
 defineOptions({ name: 'btn_dropdown' })
 
@@ -17,4 +17,3 @@ const emit = defineEmits(['click'])
 <template>
   <button type="button" class="detailsBtn" :class="{ open: props.open }" :aria-label="props.ariaLabel" :title="props.title" @click="emit('click', $event)"><AppIcon class="detailsIcon" name="chevron-down" :size="props.size" :stroke-width="props.strokeWidth" /></button>
 </template>
-

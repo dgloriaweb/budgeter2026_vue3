@@ -1,0 +1,6 @@
+[
+  { "label": "Dashboard", "to": "/dashboard" },
+  { "label": "Main", "to": "/" },
+  { "label": "Expenses", "to": "/expenses" },
+  { "label": "Balances", "to": "/balances" }
+]

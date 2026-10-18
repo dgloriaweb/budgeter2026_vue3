@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import api, { setAuthToken } from '../api/api.js'
+import api, { setAuthToken } from '@/api/api.js'
 
 const router = useRouter()
 
@@ -71,7 +71,7 @@ const handleRegister = async () => {
         />
       </div>
 
-      <button type="submit" class="btn" style="margin-top: 10px;">Sign Up</button>
+      <button type="submit" class="btn authSubmit">Sign Up</button>
     </form>
 
     <p class="authActions">
@@ -83,4 +83,3 @@ const handleRegister = async () => {
     <p v-if="successMessage" class="message success">{{ successMessage }}</p>
   </div>
 </template>
-
