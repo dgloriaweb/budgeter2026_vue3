@@ -35,7 +35,7 @@ const handleRegister = async () => {
 
     await router.push({ name: 'main' })
   } catch (error) {
-    errorMessage.value = error?.message || 'Registration failed.'
+    errorMessage.value = error?.code ? '' : error?.message || 'Registration failed.'
   }
 }
 </script>

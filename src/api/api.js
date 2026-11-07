@@ -1,3 +1,6 @@
+import { ERROR_CODES } from '@/api/errorCodes.js'
+import { showFlash } from '@/utils/flashMessage.js'
+
 // Local: same-origin (Vite proxies /api to localhost:8081).
 // Live: VITE_API_BASE_URL, or https://dgloriaapi.co.uk
 const API_TARGET_STORAGE_KEY = 'budgeter2026_api_target'
@@ -82,11 +85,11 @@ async function apiFetch(endpoint, options = {}) {
   try {
     response = await fetch(requestUrl, config)
   } catch (cause) {
-    const target = getApiTarget()
-    const hint =
-      "This usually means CORS blocked the request, the network/VPN/adblocker blocked it, or you're offline."
-    const error = new Error(`Network error reaching ${requestUrl} (apiTarget=${target}). ${hint}`)
+    const networkError = ERROR_CODES.NETWORK_ERROR
+    const error = new Error(networkError.code)
+    error.code = networkError.code
     error.cause = cause
+    showFlash('error', error.code)
     throw error
   }
 
@@ -103,7 +106,19 @@ async function apiFetch(endpoint, options = {}) {
       if (firstError) message = `${message}: ${firstError}`
     }
 
+    let errorCode = null
+    if (response.status === 500) {
+      errorCode = ERROR_CODES.INTERNAL_SERVER_ERROR
+    } else if (response.status === 401) {
+      errorCode = ERROR_CODES.UNAUTHENTICATED
+    }
+    if (errorCode) message = errorCode.code
+
     const error = new Error(message)
+    if (errorCode) {
+      error.code = errorCode.code
+      showFlash('error', error.code)
+    }
     error.data = errorData
     throw error
   }

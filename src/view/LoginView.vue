@@ -78,7 +78,7 @@ const handleLogin = async () => {
     successMessage.value = 'Logged in.'
     await router.push({ name: 'main' })
   } catch (error) {
-    errorMessage.value = error?.message || 'Login failed.'
+    errorMessage.value = error?.code ? '' : error?.message || 'Login failed.'
   }
 }
 
@@ -90,7 +90,7 @@ const handleLogout = async () => {
     await api.post('/api/logout')
   } catch (error) {
     // If the token is already invalid/expired, we still want to clear it locally.
-    errorMessage.value = error?.message || ''
+    errorMessage.value = error?.code ? '' : error?.message || ''
   } finally {
     clearAuthToken()
     currentUser.value = null

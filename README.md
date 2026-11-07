@@ -33,3 +33,13 @@
 ### accounts
 [ ] Create accounts data and import to  database
 [ ] Create page
+
+### transactions
+[ ] tlog json
+[ ] button to add transaction
+
+
+### add/edit transactions
+[ ] page
+[ ] select recurrence
+[ ] select bank account etc.

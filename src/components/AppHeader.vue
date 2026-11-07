@@ -76,8 +76,15 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
-import navMenu from '@/stores/json/navMenu.json'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { routes } from '@/router/index.js'
+
+const navMenu = computed(() =>
+  routes
+    .filter((route) => route.meta?.showInMenu)
+    .sort((a, b) => a.meta.menuOrder - b.meta.menuOrder)
+    .map((route) => ({ label: route.meta.menuLabel, to: route.path })),
+)
 
 // Auth state is owned by App.vue; this component only renders it.
 const props = defineProps({

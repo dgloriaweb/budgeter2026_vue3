@@ -1,3 +1,121 @@
+<template>
+  <div class="expensesPage mainPage">
+    <div class="sheetTop">
+      <div class="sheetTopLeft">
+        <div class="sheetTopLabel">Upcoming</div>
+        <div class="muted">{{ rangeLabel }}</div>
+      </div>
+
+      <div class="sheetTopRight">
+        <button type="button" class="filterBtn" aria-label="Filters" title="Filters" @click="openFilterMenuNear($event.currentTarget)"><AppIcon name="filter" :size="20" :stroke-width="2" /></button>
+      </div>
+    </div>
+
+
+
+    <div v-if="filterMenu.open" class="ctxBackdrop" @click="closeFilterMenu">
+      <div
+        class="ctxMenu ctxMenuFilter"
+        :style="{
+          left: `${filterMenu.x}px`,
+          top: `${filterMenu.y}px`,
+        }"
+        @click.stop
+      >
+        <CheckboxFilter
+          v-if="availableAccounts.length"
+          v-model="selectedAccountIds"
+          title="Accounts"
+          :options="accountFilterOptions"
+        />
+        <div v-else class="muted ctxEmpty">No accounts found in transactions.</div>
+
+        <div class="ctxDivider" />
+
+        <div class="ctxTitle">Columns</div>
+        <label v-for="col in columnDefs" :key="col.key" class="ctxItem">
+          <input v-model="columns[col.key]" type="checkbox" />
+          {{ col.label }}
+        </label>
+      </div>
+    </div>
+        <div class="tableWrap">
+      <table class="sheetTable mainTable">
+        <colgroup>
+          <col v-for="col in visibleColumns" :key="col.key" :class="`col-${col.key}`" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th v-for="col in visibleColumns" :key="col.key" :class="col.thClass">
+              {{ col.label }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(row, idx) in rows" :key="row.id">
+            <tr class="mainRow" @click="toggleDetails(row)">
+              <td v-for="col in visibleColumns" :key="col.key" :class="col.tdClass">
+                <template v-if="col.key === 'item'">
+                  <div class="itemCell">
+                    <span class="cellName">{{ row.item }}</span>
+                    <BtnDropdown v-if="row.details" :open="openRowId === row.id" @click.stop="toggleDetails(row)" />
+                  </div>
+                </template>
+
+                <template v-else-if="col.key === 'expense_amount'">
+                  {{ formatMoney(row.expense_amount) }}
+                </template>
+
+                <template v-else-if="col.key === 'my_share'">
+                  <span :class="{ neg: row.my_share < 0, pos: row.my_share > 0 }">
+                    <span v-if="row.my_share != null">{{ formatMoney(row.my_share) }}</span>
+                  </span>
+                </template>
+
+                <template v-else-if="col.key === 'currency'">
+                  {{ row.currency }}
+                </template>
+
+                <template v-else-if="col.key === 'date'">
+                  <div class="dateCell">
+                    <div class="dateDay">{{ row.dayLabel }}</div>
+                    <div class="dateMonth">{{ row.monthLabel }}</div>
+                  </div>
+                </template>
+
+                <template v-else-if="col.key === 'bank'">
+                  <img
+                    v-if="bankLogo(row.account_id)"
+                    class="bankLogo"
+                    :src="bankLogo(row.account_id)"
+                    :alt="`bank ${row.account_id}`"
+                  />
+                </template>
+
+                <template v-else-if="col.key === 'account'">
+                  {{ row.account_name }}
+                </template>
+              </td>
+            </tr>
+
+            <tr v-if="openRowId === row.id" class="detailsRow" @click="toggleDetails(row)">
+              <td :colspan="colSpan">
+                <div class="detailsBox">{{ row.details }}</div>
+              </td>
+            </tr>
+
+            <tr v-if="isMonthEndRow(idx)" class="monthEndRow">
+              <td :colspan="colSpan">
+                <div class="monthEndLine" />
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import rawTransactions from '@/stores/json/transaction.json'
@@ -5,6 +123,7 @@ import rawAccounts from '@/stores/json/account.json'
 import rawRecurrences from '@/stores/json/recurrence.json'
 import AppIcon from '@/components/AppIcon.vue'
 import BtnDropdown from '@/components/btn_dropdown.vue'
+import CheckboxFilter from '@/components/CheckboxFilter.vue'
 
 const transactions = Array.isArray(rawTransactions)
   ? rawTransactions
@@ -156,9 +275,13 @@ const availableAccounts = computed(() => {
   return accounts.filter((a) => ids.has(a.account_id))
 })
 
-const selectedAccounts = ref(
-  Object.fromEntries(availableAccounts.value.map((a) => [String(a.account_id), true])),
+const accountFilterOptions = computed(() =>
+  availableAccounts.value.map((account) => ({
+    value: account.account_id,
+    label: account.name,
+  })),
 )
+const selectedAccountIds = ref(availableAccounts.value.map((account) => account.account_id))
 
 function expandMonthly(recurrence, template) {
   if (!recurrence?.by_month_day) return []
@@ -274,7 +397,6 @@ const allRows = computed(() => {
 })
 
 const rows = computed(() => {
-  const allowed = selectedAccounts.value
   const knownIds = referencedAccountIds.value
 
   return allRows.value.filter((r) => {
@@ -282,7 +404,7 @@ const rows = computed(() => {
     if (!Number.isFinite(id)) return true
     // Only filter accounts we actually expose in the checkbox list.
     if (!knownIds.has(id)) return true
-    return allowed[String(id)] !== false
+    return selectedAccountIds.value.includes(id)
   })
 })
 
@@ -335,121 +457,3 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', onGlobalKeydown)
 })
 </script>
-
-<template>
-  <div class="expensesPage mainPage">
-    <div class="sheetTop">
-      <div class="sheetTopLeft">
-        <div class="sheetTopLabel">Upcoming</div>
-        <div class="muted">{{ rangeLabel }}</div>
-      </div>
-
-      <div class="sheetTopRight">
-        <button type="button" class="filterBtn" aria-label="Filters" title="Filters" @click="openFilterMenuNear($event.currentTarget)"><AppIcon name="filter" :size="20" :stroke-width="2" /></button>
-      </div>
-    </div>
-
-    <div class="tableWrap">
-      <table class="sheetTable mainTable">
-        <colgroup>
-          <col v-for="col in visibleColumns" :key="col.key" :class="`col-${col.key}`" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th v-for="col in visibleColumns" :key="col.key" :class="col.thClass">
-              {{ col.label }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-for="(row, idx) in rows" :key="row.id">
-            <tr class="mainRow" @click="toggleDetails(row)">
-              <td v-for="col in visibleColumns" :key="col.key" :class="col.tdClass">
-                <template v-if="col.key === 'item'">
-                  <div class="itemCell">
-                    <span class="cellName">{{ row.item }}</span>
-                    <BtnDropdown v-if="row.details" :open="openRowId === row.id" @click.stop="toggleDetails(row)" />
-                  </div>
-                </template>
-
-                <template v-else-if="col.key === 'expense_amount'">
-                  {{ formatMoney(row.expense_amount) }}
-                </template>
-
-                <template v-else-if="col.key === 'my_share'">
-                  <span :class="{ neg: row.my_share < 0, pos: row.my_share > 0 }">
-                    <span v-if="row.my_share != null">{{ formatMoney(row.my_share) }}</span>
-                  </span>
-                </template>
-
-                <template v-else-if="col.key === 'currency'">
-                  {{ row.currency }}
-                </template>
-
-                <template v-else-if="col.key === 'date'">
-                  <div class="dateCell">
-                    <div class="dateDay">{{ row.dayLabel }}</div>
-                    <div class="dateMonth">{{ row.monthLabel }}</div>
-                  </div>
-                </template>
-
-                <template v-else-if="col.key === 'bank'">
-                  <img
-                    v-if="bankLogo(row.account_id)"
-                    class="bankLogo"
-                    :src="bankLogo(row.account_id)"
-                    :alt="`bank ${row.account_id}`"
-                  />
-                </template>
-
-                <template v-else-if="col.key === 'account'">
-                  {{ row.account_name }}
-                </template>
-              </td>
-            </tr>
-
-            <tr v-if="openRowId === row.id" class="detailsRow" @click="toggleDetails(row)">
-              <td :colspan="colSpan">
-                <div class="detailsBox">{{ row.details }}</div>
-              </td>
-            </tr>
-
-            <tr v-if="isMonthEndRow(idx)" class="monthEndRow">
-              <td :colspan="colSpan">
-                <div class="monthEndLine" />
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
-    </div>
-
-    <div v-if="filterMenu.open" class="ctxBackdrop" @click="closeFilterMenu">
-      <div
-        class="ctxMenu ctxMenuFilter"
-        :style="{
-          left: `${filterMenu.x}px`,
-          top: `${filterMenu.y}px`,
-        }"
-        @click.stop
-      >
-        <div class="ctxTitle">Accounts</div>
-        <div v-if="availableAccounts.length">
-          <label v-for="acc in availableAccounts" :key="acc.account_id" class="ctxItem">
-            <input v-model="selectedAccounts[String(acc.account_id)]" type="checkbox" />
-            {{ acc.name }}
-          </label>
-        </div>
-        <div v-else class="muted ctxEmpty">No accounts found in transactions.</div>
-
-        <div class="ctxDivider" />
-
-        <div class="ctxTitle">Columns</div>
-        <label v-for="col in columnDefs" :key="col.key" class="ctxItem">
-          <input v-model="columns[col.key]" type="checkbox" />
-          {{ col.label }}
-        </label>
-      </div>
-    </div>
-  </div>
-</template>

@@ -7,6 +7,7 @@
     </main>
 
     <AppFooter />
+    <FlashMessage />
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import { useRoute, useRouter } from 'vue-router'
 import api, { clearAuthToken, hasAuthToken } from '@/api/api.js'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import FlashMessage from '@/components/FlashMessage.vue'
 
 const route = useRoute()
 const router = useRouter()
