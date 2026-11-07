@@ -1,7 +1,6 @@
 // Local: same-origin (Vite proxies /api to localhost:8081).
 // Live: VITE_API_BASE_URL, or https://dgloriaapi.co.uk
 const API_TARGET_STORAGE_KEY = 'budgeter2026_api_target'
-const LIVE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://dgloriaapi.co.uk'
 const AUTH_TOKEN_STORAGE_KEY = 'budgeter2026_auth_token'
 
 function defaultApiTarget() {
@@ -26,7 +25,8 @@ export function setApiTarget(target) {
 }
 
 export function getApiBaseUrl() {
-  return getApiTarget() === 'local' ? '' : LIVE_API_BASE_URL
+  // Vite automatically reads the active variable depending on the environment
+  return import.meta.env.VITE_API_BASE_URL || 'https://dgloriaapi.co.uk'
 }
 
 export function getAuthToken() {
