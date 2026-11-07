@@ -12,9 +12,7 @@
 [x] sec@here.now user added, pw in lastpass
 
 ## TODO
-[ ] Create expenses data and import to  database
-[ ] Create accounts data and import to  database
-[ ] From dashboard create/move "mark expense as paid"
+[ ] From old dashboard create/move "mark expense as paid"
 
 ### dashboard_v2
 
@@ -22,4 +20,16 @@
 ### balances
 [ ] Create page
 
+### expenses
+[ ] Create expenses data and import to  database
+[ ] Change resource to be database data (after created)
 
+
+### main
+[ ] Rename, something like upcoming...
+[ ] move somewhere else in router
+
+
+### accounts
+[ ] Create accounts data and import to  database
+[ ] Create page

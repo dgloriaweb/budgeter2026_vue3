@@ -15,7 +15,7 @@ export default defineConfig({
       // Proxy API requests in dev to avoid CORS.
       // IMPORTANT: do NOT proxy frontend routes like /register (SPA route).
       '/api': {
-        target: 'http://localhost:8081',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       },
