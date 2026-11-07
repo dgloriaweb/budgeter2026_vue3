@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+
+/* NAV MENU */
+
+.appHeader {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #243647;
+  color: #fff;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.headerMenus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navMenu {
+  position: relative;
+}
+
+.loginLink {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.loginLink:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.userMenu {
+  position: relative;
+}
+
+.iconButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.08);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 240px;
+  background: #fff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  z-index: 50;
+}
+
+.menuTop {
+  padding: 12px 12px 10px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.menuName {
+  font-weight: 800;
+}
+
+.menuEmail {
+  margin-top: 2px;
+  color: #6b7280;
+}
+
+.menuItem {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.menuItem:hover {
+  background: #f3f4f6;
+}
+
+.menuLink {
+  display: block;
+  padding: 12px;
+  color: #111827;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.menuLink:hover {
+  background: #f3f4f6;
+}
