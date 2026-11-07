@@ -1,15 +1,75 @@
 <template>
-  <div class="card">
-    <div class="cardTitle">Summary</div>
-    <div style="display:flex; justify:"
-    <div>Balance</div>
-    <!-- filter: all available currencies -->
-    <div>Currency</div>
-    <!-- filter: all available banks to filter -->
-    <div>Bank</div>
+  <div>
+    <!-- Main Header -->
+    <div>Summary</div>
+    
+    <!-- Side-by-Side Flex Layout Row -->
+    <div style="display: flex; gap: 20px;">
+      
+      <!-- Currency Block Column -->
+      <div style="display: flex; flex-direction: column; flex: 1;">
+        <label>Currency</label>
+        <select v-model="selectedCurrencies" multiple size="3">
+          <option v-for="currency in currencies" :key="currency" :value="currency">
+            {{ currency }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Bank Block Column -->
+      <div style="display: flex; flex-direction: column; flex: 1;">
+        <label>Bank</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <label v-for="bank in banks" :key="bank" style="display: flex; align-items: center; gap: 4px;">
+            <input type="checkbox" :value="bank" v-model="selectedBanks" />
+            <span>{{ bank }}</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Balance Output Section -->
+    <div style="display: flex; flex-direction: column; margin-top: 20px;">
+      <div>Balance</div>
+      
+      <table style="width: 100%;">
+        <tbody>
+          <tr v-for="total in filteredTotals" :key="total.currency">
+            <td>{{ total.currency }}:</td>
+            <td style="text-align: right;">{{ formatAmount(total.amount) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
+
+
+
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import accounts from '@/stores/json/account.json'
+import balances from '@/stores/json/balance.json'
+import {
+  formatAmount,
+  getAccountBalances,
+  summarizeBalancesByCurrency,
+} from '@/utils/shared_utils.js'
+
+const accountBalances = getAccountBalances(accounts, balances)
+const currencies = [...new Set(accounts.map((account) => account.currency))]
+const banks = [...new Set(accounts.map((account) => account.bank))]
+const selectedCurrencies = ref([...currencies])
+const selectedBanks = ref([...banks])
+const filteredTotals = computed(() =>
+  summarizeBalancesByCurrency(
+    accountBalances.filter(
+      (account) =>
+        selectedCurrencies.value.includes(account.currency) &&
+        selectedBanks.value.includes(account.bank),
+    ),
+  ),
+)
 </script>

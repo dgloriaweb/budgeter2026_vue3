@@ -6,7 +6,7 @@
         <tr>
           <th>Account</th>
           <th>Currency</th>
-          <th>Balance</th>
+          <th class="cellNumber">Balance</th>
         </tr>
       </thead>
       <tbody>
@@ -14,7 +14,7 @@
           <td>{{ account.name }}</td>
           <td>{{ account.currency }}</td>
           <td class="cellNumber">
-            {{ account.balance == null ? '—' : account.balance }}
+            {{ account.balance == null ? '—' : formatAmount(account.balance) }}
           </td>
         </tr>
       </tbody>
@@ -27,34 +27,7 @@ import { computed } from 'vue'
 
 import accounts from '@/stores/json/account.json'
 import balances from '@/stores/json/balance.json'
-import { formatAmount } from '@/utils/shared_utils.js'
+import { formatAmount, getAccountBalances } from '@/utils/shared_utils.js'
 
-// --- computed ---
-const account_balances = computed(() => mergeAccountsWithLatestBalances(accounts, balances))
-
-// --- functions ---
-
-// For each account, keep only the newest balance row (latest balance_date).
-// This is a simple "sort by date and take the first" done in a single pass.
-function mergeAccountsWithLatestBalances(accounts, balances) {
-  const latestByAccountId = new Map()
-
-  for (const balance of balances) {
-    const current = latestByAccountId.get(balance.account_id)
-
-    if (!current || new Date(balance.balance_date) > new Date(current.balance_date)) {
-      latestByAccountId.set(balance.account_id, balance)
-    }
-  }
-
-  return accounts.map((account) => {
-    const amount = latestByAccountId.get(account.account_id)?.amount ?? null
-
-    return {
-      ...account,
-      balance: formatAmount(amount),
-    }
-  })
-}
-
+const account_balances = computed(() => getAccountBalances(accounts, balances))
 </script>

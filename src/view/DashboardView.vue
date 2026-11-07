@@ -18,6 +18,6 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import api from '../api/api.js'
 import AccountBalancesCard from '@/components/AccountBalancesCard.vue'
-import VCard from '@/components/VCard.vue'
+import PayBillCard from '@/components/PayBillCard.vue'
 import SummaryCard from '@/components/SummaryCard.vue'
 </script>

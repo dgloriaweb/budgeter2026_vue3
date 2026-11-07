@@ -21,3 +21,9 @@ body {
   text-align: right;
   color: #6b7280;
 }
+
+.cellNumber {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+

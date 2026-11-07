@@ -1,27 +1,27 @@
 [
   {
     "account_id": 1,
-    "amount": 100,
+    "amount": 188.44,
     "balance_date": "2026-09-27T00:00:00Z"
   },
   {
     "account_id": 2,
-    "amount": 1000,
+    "amount": 2200,
     "balance_date": "2026-09-27T00:00:00Z"
   },
   {
     "account_id": 3,
-    "amount": 11.01,
+    "amount": 22.65,
     "balance_date": "2026-09-27T00:00:00Z"
   },
   {
     "account_id": 4,
-    "amount": 7672,
+    "amount": 14279,
     "balance_date": "2026-09-27T00:00:00Z"
   },
   {
     "account_id": 5,
-    "amount": 90,
+    "amount": 45.14,
     "balance_date": "2026-09-27T00:00:00Z"
   },
   {
